@@ -29,16 +29,9 @@ An Airtable Java Driver based on okhttp and Gson, inspired by [airtable.java](ht
 ## Gradle 
 
 ```gradle
-buildscript {
-    repositories {
-        jcenter()
-    }
-
-    dependencies {
-        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.2"
-    }
+plugins {
+  id "com.github.johnrengelman.shadow" version "6.1.4"
 }
-apply plugin: "com.github.johnrengelman.shadow"
 
 repositories {
     maven {
@@ -47,7 +40,7 @@ repositories {
 }
 
 dependencies {
-    compile "io.paradaux:airtable4j:0.1-SNAPSHOT"
+    implementation "io.paradaux:airtable4j:0.1-SNAPSHOT"
 }
 ```
 
