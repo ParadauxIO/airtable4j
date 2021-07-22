@@ -19,8 +19,8 @@ An Airtable Java Driver based on okhttp and Gson, inspired by [airtable.java](ht
 
 <dependencies>
     <dependency>
-        <groupId>io.paradaux.airtable4j</groupId>
-        <artifactId>HttpApi</artifactId>
+        <groupId>io.paradaux</groupId>
+        <artifactId>airtable4j</artifactId>
         <version>0.1-SNAPSHOT</version>
     </dependency>
 </dependencies>
