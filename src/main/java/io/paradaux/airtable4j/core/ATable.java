@@ -28,8 +28,6 @@ public class ATable {
         data.put("records", records);
         String json = airtable4J.gson().toJson(data);
         RequestBody body = RequestBody.create(ContentType.JSON.getType(), json);
-        System.out.println("request: " + json);
-        System.out.println("Authorization" + " " + "Bearer " + airtable4J.authenticate());
 
         Request request = new Request.Builder()
                 .url(base.url() + name)
@@ -37,10 +35,36 @@ public class ATable {
                 .post(body)
                 .build();
 
-        System.out.println(base.url() + name);
-
         Call call = airtable4J.client().newCall(request);
         call.enqueue(callback);
         return call;
+    }
+
+    public ListBuilder list() {
+        return new ListBuilder();
+    }
+
+    public static class ListBuilder {
+
+    }
+
+    public Call retrieve(String id) {
+        return null;
+    }
+
+    public Call put(String id, Map<String, String> fields) {
+        return null;
+    }
+
+    public Call update(String id, Map<String, String> fields) {
+        return null;
+    }
+
+    public Call delete(String[] id) {
+        return null;
+    }
+
+    public Call delete(String id) {
+        return null;
     }
 }
