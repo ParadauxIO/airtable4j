@@ -1,6 +1,7 @@
 package io.paradaux.airtable4j;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.paradaux.airtable4j.auth.AAuthentication;
 import io.paradaux.airtable4j.auth.AAuthenticationType;
 import io.paradaux.airtable4j.core.structure.ABase;
@@ -19,7 +20,7 @@ public class Airtable4J {
 
     public Airtable4J(String key) {
         this.authentication = new AAuthentication(key);
-        gson = new Gson();
+        this.gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
     public Airtable4J(AAuthenticationType type) {
@@ -36,7 +37,7 @@ public class Airtable4J {
                 this.authentication = null;
                 break;
         }
-        gson = new Gson();
+        this.gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
     public ABase base(String baseName) {
