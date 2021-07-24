@@ -33,19 +33,19 @@ public class ATable {
         return create(list, callback);
     }
 
-    public Call create(List<Object> recordsObj, Callback callback) {
-        JsonArray fields = new JsonArray();
+    public Call create(List<?> recordsObj, Callback callback) {
+        JsonArray records = new JsonArray();
 
-        for (Object o : recordsObj) {
-            JsonObject record = new JsonObject();
-            record.add("fields", airtable4J.gson().toJsonTree(o));
-            fields.add(record);
+        for (final Object o : recordsObj) {
+            JsonObject fieldMap = new JsonObject();
+            fieldMap.add("fields", airtable4J.gson().toJsonTree(o));
+            records.add(fieldMap);
         }
 
-        JsonObject records = new JsonObject();
-        records.add("records", fields);
+        JsonObject data = new JsonObject();
+        data.add("records", records);
 
-        RequestBody body = RequestBody.create(ContentType.JSON.getType(), airtable4J.gson().toJson(records));
+        RequestBody body = RequestBody.create(ContentType.JSON.getType(), airtable4J.gson().toJson(data));
 
         Request request = new Request.Builder()
                 .url(base.url() + name)
