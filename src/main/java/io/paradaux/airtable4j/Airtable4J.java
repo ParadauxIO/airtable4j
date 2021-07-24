@@ -1,10 +1,9 @@
 package io.paradaux.airtable4j;
 
 import com.google.gson.Gson;
-import io.paradaux.airtable4j.core.AAuthentication;
-import io.paradaux.airtable4j.core.AAuthenticationType;
-import io.paradaux.airtable4j.core.ABase;
-import okhttp3.Cache;
+import io.paradaux.airtable4j.auth.AAuthentication;
+import io.paradaux.airtable4j.auth.AAuthenticationType;
+import io.paradaux.airtable4j.core.structure.ABase;
 import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
