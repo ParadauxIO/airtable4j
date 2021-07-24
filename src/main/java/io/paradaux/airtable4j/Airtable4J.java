@@ -20,7 +20,7 @@ public class Airtable4J {
 
     public Airtable4J(String key) {
         this.authentication = new AAuthentication(key);
-        this.gson = new GsonBuilder().setPrettyPrinting().create();
+        this.gson = new GsonBuilder().create();
     }
 
     public Airtable4J(AAuthenticationType type) {

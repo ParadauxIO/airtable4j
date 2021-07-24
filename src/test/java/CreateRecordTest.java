@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
 public class CreateRecordTest {
 
     private static final Logger logger = LoggerFactory.getLogger(CreateRecordTest.class);
@@ -38,6 +41,7 @@ public class CreateRecordTest {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 System.out.println("Response Code: " + response.code());
+                assertEquals(200, response.code());
                 System.out.println("response: " + response.body().string());
             }
 
@@ -45,6 +49,7 @@ public class CreateRecordTest {
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 System.out.println("executed: " + call.isExecuted());
                 System.out.println("error: " + e.getMessage());
+                fail("Failed to add element to Queue: " + e.getMessage());
             }
         });
 
