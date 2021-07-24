@@ -1,4 +1,4 @@
-package io.paradaux.airtable4j.core;
+package io.paradaux.airtable4j.core.structure;
 
 import io.paradaux.airtable4j.Airtable4J;
 import org.slf4j.Logger;
