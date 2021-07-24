@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.paradaux.airtable4j.Airtable4J;
 import io.paradaux.airtable4j.http.ContentType;
+import kotlin.collections.builders.ListBuilder;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Request;
@@ -58,11 +59,79 @@ public class ATable {
         return call;
     }
 
-    public ListBuilder list() {
-        return new ListBuilder();
+    public <T> ListQuery<T> list(T type) {
+        return new ListQuery<T>();
     }
 
-    public static class ListBuilder {
+    public static class ListQuery<T> {
+
+        private String[] fields;
+
+        private String cellFormat;
+        private String userLocale;
+        private String timeZone;
+        private String formula;
+        private String view;
+
+        private int maxRecords;
+        private int pageSize;
+
+        private ListQuery()  {}
+
+        public ListQuery<T> fields(String[] fields) {
+            this.fields = fields;
+            return this;
+        }
+
+        public ListQuery<T> formula(String formula) {
+            this.formula = formula;
+            return this;
+        }
+
+        public ListQuery<T> maxRecords(int maxRecords) {
+            this.maxRecords = maxRecords;
+            return this;
+        }
+
+        public ListQuery<T> pageSize(int pageSize) {
+            this.pageSize = pageSize;
+            return this;
+        }
+
+        /**
+         * Unimplemented
+         * */
+        public ListQuery<T> sort(String str) {
+            throw new RuntimeException("Unimplemented.");
+        }
+
+        public ListQuery<T> view(String view) {
+            this.view = view;
+            return this;
+        }
+
+        public ListQuery<T> cellFormat(String cellFormat) {
+            this.cellFormat = cellFormat;
+            return this;
+        }
+
+        public ListQuery<T> timeZone(String timeZone) {
+            this.timeZone = timeZone;
+            return this;
+        }
+
+        public ListQuery<T> userLocale(String userLocale) {
+            this.userLocale = userLocale;
+            return this;
+        }
+
+        public List<T> execute(Callback callback) {
+            return null;
+        }
+
+        public List<T> execute() {
+            return null;
+        }
 
     }
 

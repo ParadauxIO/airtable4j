@@ -1,5 +1,6 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import io.paradaux.airtable4j.Airtable4J;
 import io.paradaux.airtable4j.core.structure.ABase;
 import object.Post;
@@ -42,7 +43,7 @@ public class CreateRecordTest {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 System.out.println("Response Code: " + response.code());
                 assertEquals(200, response.code());
-                System.out.println("response: " + response.body().string());
+                System.out.println("response: " + gson.toJson(gson.fromJson(response.body().string(), JsonElement.class)));
             }
 
             @Override
