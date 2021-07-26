@@ -4,9 +4,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.paradaux.airtable4j.Airtable4J;
 import io.paradaux.airtable4j.http.ContentType;
-import kotlin.collections.builders.ListBuilder;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.HttpUrl;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
@@ -63,28 +63,34 @@ public class ATable {
         return new ListQuery<T>();
     }
 
-    public static class ListQuery<T> {
+    public class ListQuery<T> {
 
         private String[] fields;
 
-        private String cellFormat;
-        private String userLocale;
-        private String timeZone;
-        private String formula;
-        private String view;
+        private HttpUrl.Builder url = new HttpUrl.Builder()
+                .scheme("https")
+                .fragment(base.url() + name);
 
         private int maxRecords;
         private int pageSize;
 
         private ListQuery()  {}
 
+        public ListQuery<T> field(String field) {
+            url.addEncodedQueryParameter("fields[]", field);
+            return this;
+        }
+
         public ListQuery<T> fields(String[] fields) {
-            this.fields = fields;
+            for (var field : fields)  {
+                url.addEncodedQueryParameter("fields[]", field);
+            }
+
             return this;
         }
 
         public ListQuery<T> formula(String formula) {
-            this.formula = formula;
+            url.addEncodedQueryParameter("filterByFormula", formula);
             return this;
         }
 
