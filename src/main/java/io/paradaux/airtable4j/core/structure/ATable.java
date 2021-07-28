@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ATable {
+public class ATable<T> {
 
     private final String name;
     private final Airtable4J airtable4J;
@@ -80,8 +80,8 @@ public class ATable {
         return call;
     }
 
-    public <T> ListQuery<T> list(T type) {
-        return new ListQuery<T>(this);
+    public ListQuery<T> list() {
+        return new ListQuery<>(this);
     }
 
     public Call retrieve(String id) {

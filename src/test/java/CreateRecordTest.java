@@ -2,6 +2,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import io.paradaux.airtable4j.Airtable4J;
+import io.paradaux.airtable4j.core.query.ListQuery;
 import io.paradaux.airtable4j.core.structure.ABase;
 import io.paradaux.airtable4j.core.structure.ACellFormat;
 import io.paradaux.airtable4j.core.structure.ATable;
@@ -68,14 +69,17 @@ public class CreateRecordTest {
         ABase base = airtable4J.base(BASE_ID);
         ATable table = base.table("Queue");
 
-
-
-        System.out.println(table.list(Post.class)
+        ListQuery<Post> query = table.list()
                 .field("ID")
                 .maxRecords(5)
                 .pageSize(5)
                 .cellFormat(ACellFormat.JSON)
-                .timeZone("Europe/Dublin").url());
+                .timeZone("Europe/Dublin");
+
+        System.out.println(query.url());
+        System.out.println();
+
+
     }
 
 }
