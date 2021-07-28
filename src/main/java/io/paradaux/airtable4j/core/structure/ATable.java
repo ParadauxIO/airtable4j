@@ -112,7 +112,7 @@ public class ATable {
         }
 
         public ListQuery<T> view(String view) {
-            this.view = view;
+            url.addEncodedQueryParameter("view", view);
             return this;
         }
 
