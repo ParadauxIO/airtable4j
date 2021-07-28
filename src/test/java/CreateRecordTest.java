@@ -3,6 +3,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import io.paradaux.airtable4j.Airtable4J;
 import io.paradaux.airtable4j.core.structure.ABase;
+import io.paradaux.airtable4j.core.structure.ACellFormat;
+import io.paradaux.airtable4j.core.structure.ATable;
 import object.Post;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -41,20 +43,37 @@ public class CreateRecordTest {
         base.table("Queue").create(posts, new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                System.out.println("Response Code: " + response.code());
+
+                System.out.println("Response Code: " + response.code() + ": " + call.request().url());
                 assertEquals(200, response.code());
                 System.out.println("response: " + gson.toJson(gson.fromJson(response.body().string(), JsonElement.class)));
             }
 
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                System.out.println("executed: " + call.isExecuted());
+                System.out.println("executed: " + call.isExecuted() + ": " + call.request().url());
                 System.out.println("error: " + e.getMessage());
                 fail("Failed to add element to Queue: " + e.getMessage());
             }
         });
 
         Thread.sleep(5000);
+    }
+
+    @Test
+    public void testList() {
+        if (API_KEY == null || BASE_ID == null) return;
+
+        Airtable4J airtable4J = new Airtable4J(API_KEY);
+        ABase base = airtable4J.base(BASE_ID);
+        ATable table = base.table("Queue");
+
+        System.out.println(table.list(Post.class)
+                .field("ID")
+                .maxRecords(5)
+                .pageSize(5)
+                .cellFormat(ACellFormat.JSON)
+                .timeZone("Europe/Dublin").url());
     }
 
 }

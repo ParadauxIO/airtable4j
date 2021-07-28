@@ -1,7 +1,10 @@
 package io.paradaux.airtable4j.core.query;
 
+import io.paradaux.airtable4j.Airtable4J;
 import io.paradaux.airtable4j.core.structure.ABase;
 import io.paradaux.airtable4j.core.structure.ACellFormat;
+import io.paradaux.airtable4j.core.structure.ATable;
+import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
 
@@ -11,11 +14,16 @@ import java.util.Map;
 public class ListQuery<T> {
 
     private final HttpUrl.Builder url;
+    private final ATable table;
 
-    public ListQuery(ABase base, String name)  {
+    public ListQuery(ATable table)  {
+        this.table = table; 
         url = new HttpUrl.Builder()
-                .scheme("https")
-                .fragment(base.url() + name);
+                .scheme(Airtable4J.API_SCHEME)
+                .host(Airtable4J.API_URL)
+                .addPathSegment(Airtable4J.API_VERSION)
+                .addPathSegment(table.getBase().getBaseID())
+                .addPathSegment(table.getName());
     }
 
     /**
@@ -34,7 +42,7 @@ public class ListQuery<T> {
      * */
     public ListQuery<T> fields(String[] fields) {
         for (var field : fields)  {
-            url.addEncodedQueryParameter("fields[]", field);
+            url.addEncodedQueryParameter("fields%5B%5D", field);
         }
 
         return this;
@@ -138,7 +146,8 @@ public class ListQuery<T> {
     /**
      * Execute the query.
      * */
-    public List<T> execute(Callback callback) {
+    public Call execute(Callback callback) {
+
         return null;
     }
 
@@ -148,6 +157,10 @@ public class ListQuery<T> {
      * */
     public List<T> execute() {
         return null;
+    }
+
+    public HttpUrl url() {
+        return url.build();
     }
 
 }
