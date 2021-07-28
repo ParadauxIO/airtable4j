@@ -7,7 +7,10 @@ import io.paradaux.airtable4j.core.structure.ATable;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
+import okhttp3.Request;
+import okhttp3.Response;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +20,7 @@ public class ListQuery<T> {
     private final ATable table;
 
     public ListQuery(ATable table)  {
-        this.table = table; 
+        this.table = table;
         url = new HttpUrl.Builder()
                 .scheme(Airtable4J.API_SCHEME)
                 .host(Airtable4J.API_URL)
@@ -144,7 +147,7 @@ public class ListQuery<T> {
 
 
     /**
-     * Execute the query.
+     * Execute the query asynchronously.
      * */
     public Call execute(Callback callback) {
 
@@ -153,9 +156,18 @@ public class ListQuery<T> {
 
 
     /**
-     * Execute the query.
+     * Execute the query synchronously.
      * */
-    public List<T> execute() {
+    public List<T> execute() throws IOException {
+        Request request = new Request.Builder()
+                .url(url.build())
+                .addHeader("Authorization", "Bearer " + table.getAirtable4J().authenticate())
+                .build();
+
+        Response response = table.getAirtable4J().client().newCall(request).execute();
+
+        
+
         return null;
     }
 
