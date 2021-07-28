@@ -11,6 +11,11 @@ import org.slf4j.LoggerFactory;
 
 public class Airtable4J {
 
+    public static final String API_SCHEME = "https";
+    public static final String API_URL = "api.airtable.com";
+    public static final String API_VERSION = "v0";
+    public static String getAPILink() { return API_SCHEME + "://" + API_URL + "/" + API_VERSION; }
+
     private static final Logger logger = LoggerFactory.getLogger(Airtable4J.class);
     private final OkHttpClient client = new OkHttpClient();
 

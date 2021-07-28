@@ -7,7 +7,6 @@ import io.paradaux.airtable4j.core.query.ListQuery;
 import io.paradaux.airtable4j.http.ContentType;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.HttpUrl;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
@@ -20,7 +19,6 @@ public class ATable {
     private final String name;
     private final Airtable4J airtable4J;
     private final ABase base;
-
 
     /**
      * Represents a table of an arbitrary type.
@@ -72,7 +70,7 @@ public class ATable {
         RequestBody body = RequestBody.create(ContentType.JSON.getType(), airtable4J.gson().toJson(data));
 
         Request request = new Request.Builder()
-                .url(base.url() + name)
+                .url(Airtable4J.getAPILink() + "/" + base.getBaseID() + "/" + name)
                 .addHeader("Authorization", "Bearer " + airtable4J.authenticate())
                 .post(body)
                 .build();
@@ -83,7 +81,7 @@ public class ATable {
     }
 
     public <T> ListQuery<T> list(T type) {
-        return new ListQuery<T>(base, name);
+        return new ListQuery<T>(this);
     }
 
     public Call retrieve(String id) {
@@ -104,5 +102,13 @@ public class ATable {
 
     public Call delete(String id) {
         return null;
+    }
+
+    public ABase getBase() {
+        return base;
+    }
+
+    public String getName() {
+        return name;
     }
 }
