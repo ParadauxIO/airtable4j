@@ -3,6 +3,7 @@ package io.paradaux.airtable4j.core.structure;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.paradaux.airtable4j.Airtable4J;
+import io.paradaux.airtable4j.core.query.ListQuery;
 import io.paradaux.airtable4j.http.ContentType;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -20,6 +21,14 @@ public class ATable {
     private final Airtable4J airtable4J;
     private final ABase base;
 
+
+    /**
+     * Represents a table of an arbitrary type.
+     * @param name The desired table
+     * @param airtable4J The connection to Airtable
+     * @param base The base this table belongs to.
+     * @see ABase
+     * */
     public ATable(String name, Airtable4J airtable4J, ABase base) {
         this.name = name;
         this.airtable4J = airtable4J;
@@ -28,12 +37,26 @@ public class ATable {
         JsonObject obj = new JsonObject();
     }
 
+
+    /**
+     * Creates a record within the table from the provided object. The object will be serialised by Gson internally.
+     * The {@link Callback} is used to allow for asynchronous execution of the request.
+     * @param record A Gson-serializable POJO containing the record data.
+     * @param callback A callback function containing the HTTP response from Airtable.
+     * */
     public Call create(Object record, Callback callback) {
         ArrayList<Object> list = new ArrayList<>();
         list.add(record);
         return create(list, callback);
     }
 
+
+    /**
+     * Creates records within the table from the provided object. The list of object will be serialised by Gson internally.
+     * The {@link Callback} is used to allow for asynchronous execution of the request.
+     * @param recordsObj A list of Gson-serializable POJOs containing the record data.
+     * @param callback A callback function containing the HTTP response from Airtable.
+     * */
     public Call create(List<?> recordsObj, Callback callback) {
         JsonArray records = new JsonArray();
 
@@ -60,85 +83,7 @@ public class ATable {
     }
 
     public <T> ListQuery<T> list(T type) {
-        return new ListQuery<T>();
-    }
-
-    public class ListQuery<T> {
-
-        private String[] fields;
-
-        private HttpUrl.Builder url = new HttpUrl.Builder()
-                .scheme("https")
-                .fragment(base.url() + name);
-
-        private int maxRecords;
-        private int pageSize;
-
-        private ListQuery()  {}
-
-        public ListQuery<T> field(String field) {
-            url.addEncodedQueryParameter("fields[]", field);
-            return this;
-        }
-
-        public ListQuery<T> fields(String[] fields) {
-            for (var field : fields)  {
-                url.addEncodedQueryParameter("fields[]", field);
-            }
-
-            return this;
-        }
-
-        public ListQuery<T> formula(String formula) {
-            url.addEncodedQueryParameter("filterByFormula", formula);
-            return this;
-        }
-
-        public ListQuery<T> maxRecords(int maxRecords) {
-            this.maxRecords = maxRecords;
-            return this;
-        }
-
-        public ListQuery<T> pageSize(int pageSize) {
-            this.pageSize = pageSize;
-            return this;
-        }
-
-        /**
-         * Unimplemented
-         * */
-        public ListQuery<T> sort(String str) {
-            throw new RuntimeException("Unimplemented.");
-        }
-
-        public ListQuery<T> view(String view) {
-            url.addEncodedQueryParameter("view", view);
-            return this;
-        }
-
-        public ListQuery<T> cellFormat(String cellFormat) {
-            this.cellFormat = cellFormat;
-            return this;
-        }
-
-        public ListQuery<T> timeZone(String timeZone) {
-            this.timeZone = timeZone;
-            return this;
-        }
-
-        public ListQuery<T> userLocale(String userLocale) {
-            this.userLocale = userLocale;
-            return this;
-        }
-
-        public List<T> execute(Callback callback) {
-            return null;
-        }
-
-        public List<T> execute() {
-            return null;
-        }
-
+        return new ListQuery<T>(base, name);
     }
 
     public Call retrieve(String id) {
