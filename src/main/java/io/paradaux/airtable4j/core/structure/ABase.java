@@ -24,4 +24,8 @@ public class ABase {
     public String getBaseID() {
         return baseID;
     }
+
+    public Airtable4J getAirtable() {
+        return airtable;
+    }
 }

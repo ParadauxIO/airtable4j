@@ -111,4 +111,8 @@ public class ATable {
     public String getName() {
         return name;
     }
+
+    public Airtable4J getAirtable4J() {
+        return airtable4J;
+    }
 }
