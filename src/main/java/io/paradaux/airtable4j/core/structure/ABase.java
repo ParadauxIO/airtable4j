@@ -17,8 +17,8 @@ public class ABase {
         this.airtable = airtable;
     }
 
-    public ATable table(String name) {
-        return new ATable(name, airtable, this);
+    public <T> ATable<T> table(String name, T type) {
+        return new ATable<>(name, airtable, this);
     }
 
     public String getBaseID() {

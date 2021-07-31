@@ -41,7 +41,7 @@ public class CreateRecordTest {
         posts.add(new Post("345345", "https://example.org", "Submitted", "wefweffwe"));
         posts.add(new Post("343455345", "https://example.org/ergerg", "Submitted", "wefwergergeffwe"));
 
-        base.table("Queue").create(posts, new Callback() {
+        base.table("Queue", null).create(posts, new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
 
@@ -67,7 +67,7 @@ public class CreateRecordTest {
 
         Airtable4J airtable4J = new Airtable4J(API_KEY);
         ABase base = airtable4J.base(BASE_ID);
-        ATable table = base.table("Queue");
+        ATable<Post> table = base.table("Queue", new Post("", "", "", ""));
 
         ListQuery<Post> query = table.list()
                 .field("ID")

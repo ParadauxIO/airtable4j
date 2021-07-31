@@ -1,7 +1,6 @@
 package io.paradaux.airtable4j.core.query;
 
 import io.paradaux.airtable4j.Airtable4J;
-import io.paradaux.airtable4j.core.structure.ABase;
 import io.paradaux.airtable4j.core.structure.ACellFormat;
 import io.paradaux.airtable4j.core.structure.ATable;
 import okhttp3.Call;
@@ -17,9 +16,9 @@ import java.util.Map;
 public class ListQuery<T> {
 
     private final HttpUrl.Builder url;
-    private final ATable table;
+    private final ATable<T> table;
 
-    public ListQuery(ATable table)  {
+    public ListQuery(ATable<T> table)  {
         this.table = table;
         url = new HttpUrl.Builder()
                 .scheme(Airtable4J.API_SCHEME)
@@ -166,7 +165,7 @@ public class ListQuery<T> {
 
         Response response = table.getAirtable4J().client().newCall(request).execute();
 
-        
+
 
         return null;
     }
