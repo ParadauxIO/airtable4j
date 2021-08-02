@@ -1,6 +1,7 @@
 # airtable4j
 
-![Version](https://img.shields.io/badge/version-0.1--SNAPSHOT-66b3b3) 
+![Version](https://img.shields.io/badge/version-0.1--SNAPSHOT-66b3b3)
+[![CodeFactor](https://www.codefactor.io/repository/github/paradauxio/airtable4j/badge)](https://www.codefactor.io/repository/github/paradauxio/airtable4j)
 
 > Work in progress. 
 
