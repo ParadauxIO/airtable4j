@@ -52,6 +52,19 @@ public class ATable<T> {
 
 
     /**
+     * Creates a record within the table from the provided object. The object will be serialised by Gson internally.
+     * The {@link Callback} is used to allow for asynchronous execution of the request.
+     * @param record A Gson-serializable POJO containing the record data.
+     * @return Response from Okhttp
+     * */
+    public Response create(Object record) throws IOException {
+        ArrayList<Object> list = new ArrayList<>();
+        list.add(record);
+        return create(list);
+    }
+
+    
+    /**
      * Creates records within the table from the provided object. The list of object will be serialised by Gson internally.
      * The {@link Callback} is used to allow for asynchronous execution of the request.
      * @param recordsObj A list of Gson-serializable POJOs containing the record data.
