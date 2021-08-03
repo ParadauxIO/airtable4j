@@ -63,7 +63,7 @@ public class ATable<T> {
         return create(list);
     }
 
-    
+
     /**
      * Creates records within the table from the provided object. The list of object will be serialised by Gson internally.
      * The {@link Callback} is used to allow for asynchronous execution of the request.

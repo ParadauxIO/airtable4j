@@ -48,3 +48,68 @@ dependencies {
 ## Usage
 
 > This is subject to change.
+
+> This uses a fictional GSON-serializable POJO Post for the purposes of an example type parameter.
+
+### Creating an Instance of Airtable4j
+```java
+Airtable4J airtable4J = new Airtable4J(API_KEY);
+```
+
+### Getting a base
+```java
+ABase<Post> base = airtable4J.base(BASE_ID);
+```
+
+## Getting a table from a base
+```java
+ATable<Post> table = base.table("Queue")
+```
+
+## Creating a record
+```java
+table.create(new Post("someField", "someOtherField"));
+```
+
+## Listing records
+As the airtable API provides additional informaiton which each record response (i.e the record ID and creationTime of that record) your POJO is wrapped in a QueryRecord which contains that meta information. You can receive the record itself using `QueryRecord<T>#getRecord`
+```java
+List<QueryRecord<Post>> posts = table.list()
+        .field("ID")
+        .maxRecords(5)
+        .pageSize(5)
+        .cellFormat(ACellFormat.JSON)
+        .timeZone("Europe/Dublin")
+        .execute(Post.class);
+```
+
+
+> This next section is for functionality which is not yet present in the api
+## Retrieving specific records
+> Not available
+
+```java
+Post post = table.retrieve("rec6ZbJAFCM146e88");
+```
+
+## Deleting records
+> Not available
+```java
+table.delete("rec6ZbJAFCM146e88");
+```
+
+## Overriding records
+This replaces the provided record with the instance of T provided.
+> Not available
+```java
+table.put("rec6ZbJAFCM146e88", new Post("someBetterField", "thisOneisEvenBetter"));
+```
+
+## Updating records
+You only specify which fields you wish to change. If you want to replace a record using a POJO use the override functionality.
+
+> Not available
+```java
+table.put("rec6ZbJAFCM146e88", Map<String, String> fields);
+```
+
