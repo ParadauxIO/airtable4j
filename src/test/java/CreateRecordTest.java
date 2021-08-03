@@ -68,7 +68,7 @@ public class CreateRecordTest {
 
         Airtable4J airtable4J = new Airtable4J(API_KEY);
         ABase base = airtable4J.base(BASE_ID);
-        ATable<Post> table = base.table("Queue", new Post("", "", "", ""));
+        ATable<Post> table = base.table("Queue");
 
         ListQuery<Post> query = table.list()
                 .field("ID")
