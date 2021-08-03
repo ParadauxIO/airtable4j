@@ -3,6 +3,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import io.paradaux.airtable4j.Airtable4J;
 import io.paradaux.airtable4j.core.query.ListQuery;
+import io.paradaux.airtable4j.core.query.QueryRecord;
 import io.paradaux.airtable4j.core.structure.ABase;
 import io.paradaux.airtable4j.core.structure.ACellFormat;
 import io.paradaux.airtable4j.core.structure.ATable;
@@ -25,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 public class CreateRecordTest {
 
     private static final Logger logger = LoggerFactory.getLogger(CreateRecordTest.class);
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    public static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     private final String API_KEY = System.getenv("airtable-api-key");
     private final String BASE_ID = System.getenv("airtable-base-id");
@@ -62,7 +63,7 @@ public class CreateRecordTest {
     }
 
     @Test
-    public void testList() {
+    public void testList() throws IOException {
         if (API_KEY == null || BASE_ID == null) return;
 
         Airtable4J airtable4J = new Airtable4J(API_KEY);
@@ -78,8 +79,8 @@ public class CreateRecordTest {
 
         System.out.println(query.url());
         System.out.println();
-
-
+        List<QueryRecord<Post>> output = query.execute(Post.class);
+        System.out.println(output);
     }
 
 }
