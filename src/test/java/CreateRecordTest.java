@@ -42,7 +42,7 @@ public class CreateRecordTest {
         posts.add(new Post("345345", "https://example.org", "Submitted", "wefweffwe"));
         posts.add(new Post("343455345", "https://example.org/ergerg", "Submitted", "wefwergergeffwe"));
 
-        base.table("Queue", null).create(posts, new Callback() {
+        base.table("Queue").create(posts, new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
 
