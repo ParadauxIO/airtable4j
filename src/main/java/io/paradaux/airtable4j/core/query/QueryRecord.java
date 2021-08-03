@@ -25,4 +25,9 @@ public class QueryRecord<T> {
     public Instant getCreatedTime() {
         return createdTime;
     }
+
+    @Override
+    public String toString() {
+        return "QueryRecord{" + "record=" + record + ", id='" + id + '\'' + ", createdTime=" + createdTime + '}';
+    }
 }
