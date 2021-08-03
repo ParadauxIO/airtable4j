@@ -183,6 +183,10 @@ public class ListQuery<T> {
         return queryRecords;
     }
 
+
+    /**
+     * Returns the Airtable API Query URL so far. Useful for debugging, if airtable decides to break their API.
+     * */
     public HttpUrl url() {
         return url.build();
     }
