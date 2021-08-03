@@ -1,5 +1,8 @@
 package io.paradaux.airtable4j.core.query;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import io.paradaux.airtable4j.Airtable4J;
 import io.paradaux.airtable4j.core.structure.ACellFormat;
 import io.paradaux.airtable4j.core.structure.ATable;
@@ -10,6 +13,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -157,17 +161,25 @@ public class ListQuery<T> {
     /**
      * Execute the query synchronously.
      * */
-    public List<T> execute() throws IOException {
+    public List<QueryRecord<T>> execute(Class<T> clazz) throws IOException {
         Request request = new Request.Builder()
                 .url(url.build())
                 .addHeader("Authorization", "Bearer " + table.getAirtable4J().authenticate())
                 .build();
 
         Response response = table.getAirtable4J().client().newCall(request).execute();
+        JsonElement element = table.getAirtable4J().gson().fromJson(response.body().string(), JsonElement.class);
 
+        List<QueryRecord<T>> queryRecords = new ArrayList<>();
 
+        JsonArray records = element.getAsJsonObject().getAsJsonArray("records");
+        for (JsonElement e : records) {
+            JsonObject obj = e.getAsJsonObject();
+            queryRecords.add(new QueryRecord<>(table.getAirtable4J().gson().fromJson(obj.getAsJsonObject("fields"), clazz),
+                    obj.get("id").getAsString(), obj.get("createdTime").getAsString()));
+        }
 
-        return null;
+        return queryRecords;
     }
 
     public HttpUrl url() {
