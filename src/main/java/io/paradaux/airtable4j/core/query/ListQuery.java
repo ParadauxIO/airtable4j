@@ -112,6 +112,7 @@ public class ListQuery<T> {
         return this;
     }
 
+
     /**
      * The format that should be used for cell values. Supported values are:
      * - ACellFormat.JSON    - cells will be formatted as JSON, depending on the field type.
