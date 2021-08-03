@@ -9,7 +9,9 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +48,37 @@ public class ATable<T> {
         ArrayList<Object> list = new ArrayList<>();
         list.add(record);
         return create(list, callback);
+    }
+
+
+    /**
+     * Creates records within the table from the provided object. The list of object will be serialised by Gson internally.
+     * The {@link Callback} is used to allow for asynchronous execution of the request.
+     * @param recordsObj A list of Gson-serializable POJOs containing the record data.
+     * @return Response from Okhttp
+     * */
+    public Response create(List<?> recordsObj) throws IOException {
+        JsonArray records = new JsonArray();
+
+        for (final Object o : recordsObj) {
+            JsonObject fieldMap = new JsonObject();
+            fieldMap.add("fields", airtable4J.gson().toJsonTree(o));
+            records.add(fieldMap);
+        }
+
+        JsonObject data = new JsonObject();
+        data.add("records", records);
+
+        RequestBody body = RequestBody.create(ContentType.JSON.getType(), airtable4J.gson().toJson(data));
+
+        Request request = new Request.Builder()
+                .url(Airtable4J.getAPILink() + "/" + base.getBaseID() + "/" + name)
+                .addHeader("Authorization", "Bearer " + airtable4J.authenticate())
+                .post(body)
+                .build();
+
+        Call call = airtable4J.client().newCall(request);
+        return call.execute();
     }
 
 
