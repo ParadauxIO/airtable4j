@@ -39,8 +39,8 @@ public class CreateRecordTest {
         ABase base = airtable4J.base(BASE_ID);
 
         List<Post> posts = new ArrayList<>();
-        posts.add(new Post("345345", "https://example.org", "Submitted", "wefweffwe"));
-        posts.add(new Post("343455345", "https://example.org/ergerg", "Submitted", "wefwergergeffwe"));
+        posts.add(new Post("345345", "htts://example.org", "Submitted", "wefweffwe"));
+        posts.add(new Post("343455345", "https://example.org/ergerg", "Submitted", "Trinder rghergioherg"));
 
         base.table("Queue").create(posts, new Callback() {
             @Override
@@ -59,7 +59,7 @@ public class CreateRecordTest {
             }
         });
 
-        Thread.sleep(5000);
+        Thread.sleep(10000);
     }
 
     @Test
